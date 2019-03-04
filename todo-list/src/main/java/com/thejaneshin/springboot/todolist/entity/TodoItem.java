@@ -37,8 +37,8 @@ public class TodoItem {
 	@Column(name="status")
 	private boolean status;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="todolist_id")
+	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name="todo_list_id")
 	private TodoList list;
 	
 	public TodoItem() {
