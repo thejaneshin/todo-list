@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="todo_list")
 public class TodoList {
@@ -23,8 +25,9 @@ public class TodoList {
 	@Column(name="title")
 	private String title;
 	
+	@JsonManagedReference
 	@OneToMany(fetch=FetchType.LAZY, 
-			   mappedBy="todo_list",
+			   mappedBy="list",
 			   cascade=CascadeType.ALL)
 	private List<TodoItem> items;
 	

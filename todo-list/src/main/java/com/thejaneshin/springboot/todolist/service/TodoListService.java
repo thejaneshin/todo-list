@@ -11,5 +11,5 @@ public interface TodoListService {
 	
 	public void save(TodoList theTodoList);
 	
-	public void deleteById(int theId);
+	public void deleteById(int todoListId);
 }

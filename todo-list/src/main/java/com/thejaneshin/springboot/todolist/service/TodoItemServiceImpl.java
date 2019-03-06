@@ -28,23 +28,11 @@ public class TodoItemServiceImpl implements TodoItemService {
 		Optional<TodoItem> result = todoItemRepository.findById(todoItemId);
 		TodoItem theTodoItem = null;
 		
-		if (result.isPresent()) {
+		if (result.isPresent())
 			theTodoItem = result.get();
-		}
-		else {
+		else
 			throw new RuntimeException("Did not find TodoItem id - " + todoItemId);
-		}
 		return theTodoItem;
-	}
-
-	@Override
-	public TodoItem findByListId(int todoListId) {
-		return todoItemRepository.findByListId(todoListId);
-	}
-
-	@Override
-	public TodoItem findbyIdAndListId(int todoItemId, int todoListId) {
-		return todoItemRepository.findbyIdAndListId(todoItemId, todoListId);
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -37,6 +38,7 @@ public class TodoItem {
 	@Column(name="status")
 	private boolean status;
 	
+	@JsonBackReference
 	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn(name="todo_list_id")
 	private TodoList list;
@@ -45,10 +47,10 @@ public class TodoItem {
 		
 	}
 
-	public TodoItem(String description, LocalDateTime deadline, boolean status, TodoList list) {
+	public TodoItem(String description, LocalDateTime deadline, TodoList list) {
 		this.description = description;
 		this.deadline = deadline;
-		this.status = status;
+		this.status = false;
 		this.list = list;
 	}
 
