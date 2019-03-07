@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,15 +27,16 @@ public class TodoItem {
 	@Column(name="id")
 	private int id;
 	
+	@NotNull
 	@Column(name="description")
 	private String description;
 	
-	// Might have to change timezone
 	@DateTimeFormat(pattern ="yyyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	@Column(name="deadline")
 	private LocalDateTime deadline;
 	
+	@NotNull
 	@Column(name="status")
 	private boolean status;
 	
