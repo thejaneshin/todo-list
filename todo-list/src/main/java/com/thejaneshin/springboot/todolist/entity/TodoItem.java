@@ -18,30 +18,37 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name="todo_item")
 public class TodoItem {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "The database generated todo item ID")
 	@Column(name="id")
 	private int id;
 	
 	@NotNull
+	@ApiModelProperty(notes = "The description of todo item")
 	@Column(name="description")
 	private String description;
 	
 	@DateTimeFormat(pattern ="yyyy-MM-dd HH:mm")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+	@ApiModelProperty(notes = "The deadline for the todo item, in \"yyyy-MM-dd HH:mm\" format")
 	@Column(name="deadline")
 	private LocalDateTime deadline;
 	
 	@NotNull
+	@ApiModelProperty(notes = "The status regarding whether todo item is complete (true) or incomplete(false)")
 	@Column(name="status")
 	private boolean status;
 	
 	@JsonBackReference
 	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@ApiModelProperty(notes = "The todo list which the todo item is under")
 	@JoinColumn(name="todo_list_id")
 	private TodoList list;
 	

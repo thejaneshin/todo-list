@@ -15,19 +15,24 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(name="todo_list")
 public class TodoList {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@ApiModelProperty(notes = "The database generated todo list ID")
 	@Column(name="id")
 	private int id;
 	
 	@NotNull
+	@ApiModelProperty(notes = "The title of the todo list")
 	@Column(name="title")
 	private String title;
 	
 	@JsonManagedReference
+	@ApiModelProperty(notes = "The list of todo items")
 	@OneToMany(fetch=FetchType.LAZY, 
 			   mappedBy="list",
 			   cascade=CascadeType.ALL)

@@ -17,6 +17,8 @@ import com.thejaneshin.springboot.todolist.entity.TodoList;
 import com.thejaneshin.springboot.todolist.service.TodoItemService;
 import com.thejaneshin.springboot.todolist.service.TodoListService;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api")
 public class TodoRestController {
@@ -29,12 +31,14 @@ public class TodoRestController {
 		todoItemService = theTodoItemService;
 	}
 	
-	@GetMapping("/lists")
+	@ApiOperation(value="View all the todo lists")
+	@GetMapping(value="/lists", produces="application/json")
 	public List<TodoList> findAll() {
 		return todoListService.findAll();
 	}
 	
-	@GetMapping("/lists/{todoListId}")
+	@ApiOperation(value="Search for a todo list, given a todoListId")
+	@GetMapping(value="/lists/{todoListId}", produces="application/json")
 	public TodoList getTodoList(@PathVariable int todoListId) {
 		TodoList theTodoList = todoListService.findById(todoListId);
 		if (theTodoList == null)
@@ -42,15 +46,17 @@ public class TodoRestController {
 		return theTodoList;
 	}
 	
-	@GetMapping("/lists/{todoListId}/items")
-	public List<TodoItem> findAllPostsById(@PathVariable int todoListId) {
+	@ApiOperation(value="View all the todo items, given a todoListId")
+	@GetMapping(value="/lists/{todoListId}/items", produces="application/json")
+	public List<TodoItem> findAllTodoItemsById(@PathVariable int todoListId) {
 		TodoList theTodoList = todoListService.findById(todoListId);
 		if (theTodoList == null)
 			throw new RuntimeException("TodoList id not found - " + todoListId);
 		return theTodoList.getItems();
 	}
 	
-	@GetMapping("/lists/{todoListId}/items/{todoItemId}")
+	@ApiOperation(value="Search for a todo item, given both todoListId and todoItemId")
+	@GetMapping(value="/lists/{todoListId}/items/{todoItemId}", produces="application/json")
 	public TodoItem getTodoItem(@PathVariable int todoListId, @PathVariable int todoItemId) {
 		TodoList theTodoList = todoListService.findById(todoListId);
 		if (theTodoList == null)
@@ -61,7 +67,8 @@ public class TodoRestController {
 		return theTodoItem;
 	}
 	
-	@PostMapping("/lists")
+	@ApiOperation(value="Add a todo list")
+	@PostMapping(value="/lists", produces="application/json")
 	public TodoList addTodoList(@RequestBody TodoList theTodoList) {
 		// Just in case user passes an id in JSON
 		// This is to force a save of new item, instead of update
@@ -70,7 +77,8 @@ public class TodoRestController {
 		return theTodoList;
 	}
 	
-	@PostMapping("/lists/{todoListId}/items")
+	@ApiOperation(value="Add a todo item, given a todoListId")
+	@PostMapping(value="/lists/{todoListId}/items", produces="application/json")
 	public TodoItem addTodoItem(@PathVariable int todoListId, @RequestBody TodoItem theTodoItem) {
 		TodoList theTodoList = todoListService.findById(todoListId);
 		if (theTodoList == null)
@@ -81,13 +89,15 @@ public class TodoRestController {
 		return theTodoItem;
 	}
 	
-	@PutMapping("/lists")
+	@ApiOperation(value="Update a todo list")
+	@PutMapping(value="/lists", produces="application/json")
 	public TodoList updateTodoList(@RequestBody TodoList theTodoList) {
 		todoListService.save(theTodoList);
 		return theTodoList;
 	}
 	
-	@PutMapping("/lists/{todoListId}/items")
+	@ApiOperation(value="Update a todo item, given a todoListId")
+	@PutMapping(value="/lists/{todoListId}/items", produces="application/json")
 	public TodoItem updateTodoItem(@PathVariable int todoListId, @RequestBody TodoItem theTodoItem) {
 		TodoList theTodoList = todoListService.findById(todoListId);
 		if (theTodoList == null)
@@ -97,7 +107,8 @@ public class TodoRestController {
 		return theTodoItem;
 	}
 	
-	@DeleteMapping("/lists/{todoListId}")
+	@ApiOperation(value="Delete a todo list, given a todoListId")
+	@DeleteMapping(value="/lists/{todoListId}", produces="application/json")
 	public String deleteTodoList(@PathVariable int todoListId) {
 		TodoList tempTodoList = todoListService.findById(todoListId);
 		if (tempTodoList == null)
@@ -106,7 +117,8 @@ public class TodoRestController {
 		return "Deleted TodoList id - " + todoListId;
 	}
 	
-	@DeleteMapping("/lists/{todoListId}/items/{todoItemId}")
+	@ApiOperation(value="Delete todo item, given both todoListId and todoItemId")
+	@DeleteMapping(value="/lists/{todoListId}/items/{todoItemId}", produces="application/json")
 	public String deleteTodoItem(@PathVariable int todoListId, @PathVariable int todoItemId) {
 		TodoList tempTodoList = todoListService.findById(todoListId);
 		if (tempTodoList == null)
